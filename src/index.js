@@ -18,7 +18,7 @@ const schema = gql`
 
 const resolvers = {
   Query: {
-    me: () => {
+    me: (parent, args, { me }) => {
       return me;
     },
     user: (parent, { id }) => {
@@ -27,6 +27,8 @@ const resolvers = {
     users: () => {
       return Object.values(users);
     },
+  },
+  User: {
   },
 };
 
@@ -41,15 +43,16 @@ let users = {
   },
 };
 
-const me = users[1];
-
 const server = new ApolloServer({
   typeDefs: schema,
   resolvers,
+  context: {
+    me: users[1],
+  },
 });
 
 server.applyMiddleware({ app, path: '/graphql' });
 
-app.listen({ port: 8000 }, () => {
-  console.log('Apollo Server on http://localhost:8000/graphql');
+app.listen({ port: 9000 }, () => {
+  console.log('Apollo Server on http://localhost:9000/graphql');
 });
