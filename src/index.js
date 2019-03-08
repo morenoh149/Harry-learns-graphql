@@ -16,6 +16,7 @@ const schema = gql`
 
   type Mutation {
     createMessage(text: String!): Message!
+    updateMessage(id: ID!, text: String!): Message!
     deleteMessage(id: ID!): Boolean!
   }
 
@@ -64,6 +65,10 @@ const resolvers = {
       users[me.id].messageIds.push(id);
 
       return message;
+    },
+    updateMessage: (parent, { id, text }) => {
+      messages[id].text = text;
+      return messages[id];
     },
     deleteMessage: (parent, { id }) => {
       const { [id]: message, ...otherMessages } = messages;
