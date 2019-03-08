@@ -6,9 +6,12 @@ const app = express();
 const schema = gql`
   type Query {
     me: User
+    user(id: ID!): User
+    users: [User!]
   }
 
   type User {
+    id: ID!
     username: String!
   }
 `;
@@ -16,12 +19,29 @@ const schema = gql`
 const resolvers = {
   Query: {
     me: () => {
-      return {
-        username: 'Harry Moreno',
-      };
+      return me;
+    },
+    user: (parent, { id }) => {
+      return users[id];
+    },
+    users: () => {
+      return Object.values(users);
     },
   },
 };
+
+let users = {
+  1: {
+    id: '1',
+    username: 'Harry Moreno',
+  },
+  2: {
+    id: '2',
+    username: 'Ashley Adams',
+  },
+};
+
+const me = users[1];
 
 const server = new ApolloServer({
   typeDefs: schema,
