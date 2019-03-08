@@ -1,5 +1,5 @@
 logfile
-
+lib/
 .env
-
+*.swp
 node_modules/

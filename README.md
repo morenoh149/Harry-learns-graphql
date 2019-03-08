@@ -1,8 +1,6 @@
-# Simple Node Server with Babel
+# Learn Graphql
 
-[![Build Status](https://travis-ci.org/rwieruch/node-babel-server.svg?branch=master)](https://travis-ci.org/rwieruch/node-babel-server) [![Slack](https://slack-the-road-to-learn-react.wieruch.com/badge.svg)](https://slack-the-road-to-learn-react.wieruch.com/) [![Greenkeeper badge](https://badges.greenkeeper.io/rwieruch/node-babel-server.svg)](https://greenkeeper.io/)
-
-An easy way to get started with JavaScript on the command line. [Read more about it](https://www.robinwieruch.de/minimal-node-js-babel-setup).
+Code along https://www.robinwieruch.de/graphql-apollo-server-tutorial
 
 ## Features
 
@@ -16,8 +14,7 @@ An easy way to get started with JavaScript on the command line. [Read more about
 
 ## Installation
 
-* `git clone git@github.com:rwieruch/node-babel-server.git`
-* `cd node-babel-server`
+* clone
 * `npm install`
 * `npm start`
 * optional: include *.env* in your *.gitignore*
