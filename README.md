@@ -16,5 +16,6 @@ Code along https://www.robinwieruch.de/graphql-apollo-server-tutorial
 
 * clone
 * `npm install`
+* createdb learngraphql
 * `npm start`
 * optional: include *.env* in your *.gitignore*
