@@ -6,7 +6,7 @@ export default {
       return await models.Message.findAll();
     },
     message: async (parent, { id }, { models }) => {
-      return await models.Message.findById(id);
+      return await models.Message.findByPk(id);
     },
   },
 
@@ -20,9 +20,14 @@ export default {
     updateMessage: async (parent, { id, text }, { models }) => {
       const result = await models.Message.update(
         { text },
-        { where: { id }}
+        {
+          where: { id },
+          returning: true,
+        }
       );
-      return result[1];
+      let [count, affectedRows] = result;
+      const updateRow = affectedRows[0].dataValues;
+      return updateRow;
     },
     deleteMessage: async (parent, { id }, { models }) => {
       return await models.Message.destroy({ where: { id }});
@@ -31,7 +36,7 @@ export default {
 
   Message: {
     user: async (message, args, { models }) => {
-      return await models.User.findById(message.userId);
+      return await models.User.findByPk(message.userId);
     },
   },
 };
