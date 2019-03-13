@@ -14,8 +14,9 @@ Code along https://www.robinwieruch.de/graphql-apollo-server-tutorial
 
 ## Installation
 
-* clone
+* clone project
 * `npm install`
-* createdb learngraphql
+* install postgres, I prefer postgres.app on osx
+* `createdb learngraphql`
+* `cp .env.template .env` set any environment variables you need
 * `npm start`
-* optional: include *.env* in your *.gitignore*
