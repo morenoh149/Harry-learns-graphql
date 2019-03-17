@@ -1,5 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
+import DataLoader from 'dataloader';
+import loaders from './loaders';
 import jwt from 'jsonwebtoken';
 import http from 'http';
 import {
@@ -26,6 +28,8 @@ const getMe = async req => {
   }
 };
 
+const userLoader = new DataLoader(keys => batchUsers(keys, models));
+
 const server = new ApolloServer({
   typeDefs: schema,
   resolvers,
@@ -45,6 +49,11 @@ const server = new ApolloServer({
     if (connection) {
       return {
         models,
+        loaders: {
+          user: new DataLoader(keys =>
+            loaders.user.batchUsers(keys, models)
+          ),
+        },
       };
     }
 
@@ -55,6 +64,11 @@ const server = new ApolloServer({
         models,
         me,
         secret: process.env.SECRET,
+        loaders: {
+          user: new DataLoader(keys =>
+            loaders.user.batchUsers(keys, models)
+          ),
+        },
       };
     }
   }
