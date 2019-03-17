@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import jwt from 'jsonwebtoken';
+import http from 'http';
 import {
   ApolloServer,
   AuthenticationError,
@@ -40,18 +41,29 @@ const server = new ApolloServer({
       message,
     };
   },
-  context: async ({ req }) => {
-    const me = await getMe(req);
+  context: async ({ req, connection }) => {
+    if (connection) {
+      return {
+        models,
+      };
+    }
 
-    return {
-      models,
-      me,
-      secret: process.env.SECRET,
-    };
+    if (req) {
+      const me = await getMe(req);
+
+      return {
+        models,
+        me,
+        secret: process.env.SECRET,
+      };
+    }
   }
 });
 
 server.applyMiddleware({ app, path: '/graphql' });
+
+const httpServer = http.createServer(app);
+server.installSubscriptionHandlers(httpServer);
 
 let eraseDatabaseOnSync;
 if (process.env.NODE_ENV === 'production') {
@@ -65,7 +77,7 @@ sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
     seedDatabase(new Date());
   }
 
-  app.listen({ port: 9000 }, () => {
+  httpServer.listen({ port: 9000 }, () => {
     console.log('Apollo Server on http://localhost:9000/graphql');
   });
 });
