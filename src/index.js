@@ -68,6 +68,8 @@ server.installSubscriptionHandlers(httpServer);
 let eraseDatabaseOnSync;
 if (process.env.NODE_ENV === 'production') {
   eraseDatabaseOnSync = false;
+} else if (process.env.NODE_ENV === 'test') {
+  eraseDatabaseOnSync = true;
 } else {
   eraseDatabaseOnSync = true;
 }

@@ -7,7 +7,8 @@
     "start": "npm run build && node lib/index.js",
     "build": "babel src --out-dir lib",
     "dev": "nodemon --exec babel-node src/index.js",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "mocha --require @babel/register 'src/**/*.spec.js'",
+    "test-server": "DATABASE_URL=postgres://localhost/testlearngraphql npm start"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +18,10 @@
     "@babel/core": "^7.3.4",
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.2.3",
+    "@babel/register": "^7.0.0",
+    "axios": "^0.18.0",
+    "chai": "^4.2.0",
+    "mocha": "^6.0.2",
     "nodemon": "^1.18.9"
   },
   "dependencies": {

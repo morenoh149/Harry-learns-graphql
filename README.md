@@ -20,3 +20,9 @@ Code along https://www.robinwieruch.de/graphql-apollo-server-tutorial
 * `createdb learngraphql`
 * `cp .env.template .env` set any environment variables you need
 * `npm start`
+
+## Testing
+
+* `createdb testlearngraphql`
+* `npm run test-server`
+* in a new terminal `npm test`
