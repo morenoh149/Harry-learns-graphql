@@ -62,7 +62,7 @@ if (process.env.NODE_ENV === 'production') {
 
 sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
   if (eraseDatabaseOnSync) {
-    seedDatabase();
+    seedDatabase(new Date());
   }
 
   app.listen({ port: 9000 }, () => {
@@ -70,7 +70,7 @@ sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
   });
 });
 
-const seedDatabase = async () => {
+const seedDatabase = async date => {
   await models.User.create(
     {
       username: 'morenoh149',
@@ -80,6 +80,7 @@ const seedDatabase = async () => {
       messages: [
         {
           text: 'Published the Road to learn React',
+          createdAt: date.setSeconds(date.getSeconds() + 1),
         },
       ],
     },
@@ -96,9 +97,11 @@ const seedDatabase = async () => {
       messages: [
         {
           text: 'Happy to release ...',
+          createdAt: date.setSeconds(date.getSeconds() + 1),
         },
         {
           text: 'Published a complete ...',
+          createdAt: date.setSeconds(date.getSeconds() + 1),
         },
       ],
     },
