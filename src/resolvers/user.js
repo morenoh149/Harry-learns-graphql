@@ -1,9 +1,16 @@
 import jwt from 'jsonwebtoken';
+import { combineResolvers } from 'graphql-resolvers';
 import { AuthenticationError, UserInputError } from 'apollo-server';
 
+import { isAdmin } from './authorization';
+
+/*
+ * createToken makes a jwt. We put the userId, role and email so the API knows
+ * who is making a request in a stateless way. The state is in the jwt.
+ */
 const createToken = async (user, secret, expiresIn) => {
-  const { id, email, username } = user;
-  return await jwt.sign({ id, email, username }, secret, {
+  const { id, email, username, role } = user;
+  return await jwt.sign({ id, email, username, role }, secret, {
     expiresIn,
   });
 };
@@ -61,6 +68,15 @@ export default {
 
       return { token: createToken(user, secret, '30m') };
     },
+
+    deleteUser: combineResolvers(
+      isAdmin,
+      async (parent, { id }, { models }) => {
+        return await models.User.destroy({
+          where: { id },
+        });
+      },
+    ),
   },
 
   User: {
